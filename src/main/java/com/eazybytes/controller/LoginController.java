@@ -1,6 +1,5 @@
 package com.eazybytes.controller;
 
-import com.eazybytes.model.Customer;
 import com.eazybytes.repository.CustomerRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
