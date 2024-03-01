@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
+import java.util.Random;
+
 @RestController
 public class ContactController {
 
@@ -16,12 +19,17 @@ public class ContactController {
         this.repository = repository;
     }
 
-    @GetMapping("/contact/{id}")
-    public void saveContactInquiryDetails(@RequestBody Contact contact, @PathVariable long id){
-        if(!repository.existsById(id)){
-            repository.save(contact);
-        }
+    @GetMapping("/contact")
+    public Contact saveContactInquiryDetails(@RequestBody Contact contact){
+            contact.setContactId(getServiceReqNumber());
+            contact.setCreateDt(new Date(System.currentTimeMillis()));
+            return repository.save(contact);
+    }
 
+    public String getServiceReqNumber(){
+        Random random = new Random();
+        int ranNum = random.nextInt(999999999 - 9999) + 9999;
+        return "SR"+ranNum;
     }
 
 }
