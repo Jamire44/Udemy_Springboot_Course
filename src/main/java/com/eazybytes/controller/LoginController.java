@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.swing.plaf.InsetsUIResource;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class LoginController {
         try {
             String hashedPwd = passwordEncoder.encode(customer.getPwd());
             customer.setPwd(hashedPwd);
-            customer.setCreateDt(String.valueOf(new Date(System.currentTimeMillis())));
+            customer.setCreateDt(String.valueOf(new Timestamp(System.currentTimeMillis())));
             savedCustomer = repository.save(customer);
             if (savedCustomer.getId() > 0){
                 response = ResponseEntity

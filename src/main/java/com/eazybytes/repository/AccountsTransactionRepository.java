@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface AccountsTransactionRepository extends CrudRepository<AccountTransactions, Long> {
 
-    List<AccountTransactions> findByCustomerIdOOrderByTransactionDtDesc (int customerId);
+    List<AccountTransactions> findByCustomerIdOrderByTransactionDtDesc (int customerId);
 
 }
