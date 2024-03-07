@@ -1,5 +1,6 @@
 package com.eazybytes.config;
 
+import com.eazybytes.model.Authority;
 import com.eazybytes.model.Customer;
 import com.eazybytes.repository.CustomerRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,12 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class EazyBankUsernamePwdAuthenticationProvider implements AuthenticationProvider {
 
     private final CustomerRepository repository;
-
     private final PasswordEncoder passwordEncoder;
 
     public EazyBankUsernamePwdAuthenticationProvider(CustomerRepository repository, PasswordEncoder passwordEncoder) {
@@ -34,15 +35,21 @@ public class EazyBankUsernamePwdAuthenticationProvider implements Authentication
         List<Customer> customers = repository.findByEmail(username);
         if (customers.size() > 0){
             if (passwordEncoder.matches(pwd, customers.get(0).getPwd())){
-                List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(customers.get(0).getRole()));
-                return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
+                return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(customers.get(0).getAuthorities()));
             }else {
                 throw new BadCredentialsException("Invalid Password");
             }
         }else {
             throw new BadCredentialsException("No user registered with details entered");
         }
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities){
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (Authority authority : authorities){
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
+        }
+        return grantedAuthorities;
     }
 
     @Override
