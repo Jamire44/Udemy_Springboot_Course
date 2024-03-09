@@ -20,10 +20,10 @@ public class ContactController {
     }
 
     @GetMapping("/contact")
-    public Contact saveContactInquiryDetails(@RequestBody Contact contact){
+    public void saveContactInquiryDetails(@RequestBody Contact contact){
             contact.setContactId(getServiceReqNumber());
             contact.setCreateDt(new Date(System.currentTimeMillis()));
-            return repository.save(contact);
+            repository.save(contact);
     }
 
     public String getServiceReqNumber(){

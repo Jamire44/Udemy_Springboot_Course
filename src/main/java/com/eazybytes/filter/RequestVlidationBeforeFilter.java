@@ -13,6 +13,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 public class RequestVlidationBeforeFilter implements Filter {
 
     public static final String AUTHENTICATION_SCHEME_BASIC = "Basic";
@@ -24,7 +26,7 @@ public class RequestVlidationBeforeFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        String header = req.getHeader("AUTHORIZATION");
+        String header = req.getHeader(AUTHORIZATION);
         if (header != null){
             header = header.trim();
             if (StringUtils.startsWithIgnoreCase(header, AUTHENTICATION_SCHEME_BASIC)){
