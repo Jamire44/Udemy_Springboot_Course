@@ -48,7 +48,6 @@ public class ProjectSecurityConfig {
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JWTTokenGenerator(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidationFilter(), BasicAuthenticationFilter.class)
-
                 .authorizeHttpRequests((requests)->requests
                         .requestMatchers("/myAccount").hasRole("USER")
                         .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
@@ -59,6 +58,7 @@ public class ProjectSecurityConfig {
                         .requestMatchers("/contact").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
+        
         return http.build();
     }
 
