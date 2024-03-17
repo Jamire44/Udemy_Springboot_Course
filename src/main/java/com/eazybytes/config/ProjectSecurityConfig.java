@@ -42,7 +42,8 @@ public class ProjectSecurityConfig {
                     }
                 }))
                 // Making method level security
-                // Will make tomorrow -> 
+                // Will make tomorrow ->
+                // Small change
                 .csrf((csrf) -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/register")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
